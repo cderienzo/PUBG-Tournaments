@@ -7,15 +7,16 @@ using SimpleJSON;
 
 public class AppManager : MonoBehaviour
 {
-
-    public string url;
     public JSONNode jsonResult;
     public GameObject loadingScreen;
     public static AppManager instance;
+    
+    private string url = "https://api.pubg.com/tournaments";
+    private const string APIKey =
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJmNmE5NDQ5MC0zMWRhLTAxMzktZGQ1ZC03MWI3MzQ5YWMyMzAiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNjA5ODg5MDE4LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6Ii04YjMyODhhMi01OGQ2LTQyOGYtODc0Ni1iNzk3NmZmNWVmZDYifQ.qNONTnCm7pVVXBoYty9lybnKzgpuOPTW71K-uYFJ0mM";
 
     private void Awake()
     {
-        url = "https://api.pubg.com/tournaments";
         instance = this;
         instance.StartCoroutine("GetTournaments");
     }
@@ -30,7 +31,7 @@ public class AppManager : MonoBehaviour
         webRequest.downloadHandler = new DownloadHandlerBuffer();
         webRequest.url = url;
         webRequest.SetRequestHeader("accept", "application/vnd.api+json");
-        webRequest.SetRequestHeader("Authorization", "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJmNmE5NDQ5MC0zMWRhLTAxMzktZGQ1ZC03MWI3MzQ5YWMyMzAiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNjA5ODg5MDE4LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6Ii04YjMyODhhMi01OGQ2LTQyOGYtODc0Ni1iNzk3NmZmNWVmZDYifQ.qNONTnCm7pVVXBoYty9lybnKzgpuOPTW71K-uYFJ0mM");
+        webRequest.SetRequestHeader("Authorization", $"bearer {APIKey}");
         yield return webRequest.SendWebRequest();
         string rawJson = Encoding.Default.GetString(webRequest.downloadHandler.data);
         jsonResult = JSON.Parse(rawJson);
@@ -38,7 +39,10 @@ public class AppManager : MonoBehaviour
         loadingScreen.SetActive(false);
     }
 
-    // filters tournaments list according to input received
+    /*
+     * Filters tournaments list according to input received
+     * Due to TMP_InputField the last character is not sent until enter 
+     */
     public void GetTournamentById(string id)
     {
         if (String.IsNullOrEmpty(id))
@@ -53,7 +57,7 @@ public class AppManager : MonoBehaviour
         for (int i = 0; i < records.Count; ++i)
         {
             string tmp = records[i]["id"];
-            if (tmp.StartsWith(id))
+            if (tmp.ToLower().StartsWith(id.ToLower()))
                 results.Add(records[i]);
         }
         

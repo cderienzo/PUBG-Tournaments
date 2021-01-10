@@ -10,6 +10,8 @@ public class UI : MonoBehaviour
     public RectTransform container;
 
     public GameObject segmentPrefab;
+    public GameObject noResultsScreen;
+    public GameObject inputField;
     private List<GameObject> segments = new List<GameObject>();
 
     public static UI instance;
@@ -47,6 +49,14 @@ public class UI : MonoBehaviour
     {
         DeactivateAllSegments();
 
+        if (records.Count == 0)
+        {
+            noResultsScreen.SetActive(true);
+            return;
+        }
+
+        noResultsScreen.SetActive(false);
+        
         for (int i = 0; i < records.Count; ++i)
         {
             GameObject segment = i < segments.Count ? segments[i] : CreateNewSegment();
@@ -91,10 +101,9 @@ public class UI : MonoBehaviour
         return height;
     }
 
-    public void OnSearchById(TextMeshProUGUI input)
+    public void OnSearchById()
     {
-        // workaround for TMP_InputField empty string issue
-        string text = input.text.Trim((char)8203);
+        string text = inputField.GetComponent<TMP_InputField>().text;
         AppManager.instance.GetTournamentById(text);
     }
 
