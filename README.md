@@ -8,7 +8,7 @@ A search input field was also added to filter the tournaments list by *tournamen
 
 ## Usage
 
-Open project with Unity, and with `PUBGTournaments` scene in place, either run in-site or select Build and Run for creating a .exe file.
+Open project with Unity, and with `PUBGTournaments` scene in place, either run in-site or Build for creating a .exe file.
 
 
 ## Plugins
