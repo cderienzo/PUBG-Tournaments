@@ -13,7 +13,7 @@ public class AppManager : MonoBehaviour
     
     private string url = "https://api.pubg.com/tournaments";
     private const string APIKey =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJmNmE5NDQ5MC0zMWRhLTAxMzktZGQ1ZC03MWI3MzQ5YWMyMzAiLCJpc3MiOiJnYW1lbG9ja2VyIiwiaWF0IjoxNjA5ODg5MDE4LCJwdWIiOiJibHVlaG9sZSIsInRpdGxlIjoicHViZyIsImFwcCI6Ii04YjMyODhhMi01OGQ2LTQyOGYtODc0Ni1iNzk3NmZmNWVmZDYifQ.qNONTnCm7pVVXBoYty9lybnKzgpuOPTW71K-uYFJ0mM";
+        "YOURAPIKEY";
 
     private void Awake()
     {
